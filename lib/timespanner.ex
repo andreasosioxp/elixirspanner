@@ -1,5 +1,5 @@
 defmodule TimeSpanner do
   def from_minutes(m) do
-    "1 minute"
+    "#{m} " <> if (m != 1), do: "minutes", else: "minute"
   end
 end
