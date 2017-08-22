@@ -34,4 +34,8 @@ defmodule TimeSpannerTest do
   test "works for 60 minutes" do
     assert TimeSpanner.from_minutes(60) == "1 hour"
   end
+
+  test "works for with days" do
+    assert TimeSpanner.from_minutes(24*60 + 60*2 + 14) == "1 day 2 hours 14 minutes"
+  end
 end
