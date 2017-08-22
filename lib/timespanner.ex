@@ -10,12 +10,23 @@ defmodule TimeSpanner do
   defp to_string(days, hours, minutes) do
     days_as_string = days_to_string(days)
     hours_as_string = hours_to_string(hours)
-    minutes_as_string = minutes_to_string(minutes, hours<1)
-    if(hours_as_string != "" && minutes_as_string != "") do
-      hours_as_string <> " " <> minutes_as_string
-    else
-      hours_as_string <> minutes_as_string
+
+    only_minutes = hours < 1 and days < 1
+    minutes_as_string = minutes_to_string(minutes, only_minutes)
+
+    cond do
+      days_as_string != "" and hours_as_string != "" and minutes_as_string != "" ->
+        days_as_string <> " " <> hours_as_string <> " " <> minutes_as_string
+      hours_as_string != "" and minutes_as_string != "" ->
+        hours_as_string <> " " <> minutes_as_string
+      days_as_string != "" and hours_as_string != "" ->
+        days_as_string <> " " <> hours_as_string
+      days_as_string != "" and minutes_as_string != "" ->
+        days_as_string <> " " <> minutes_as_string
+      true ->
+        days_as_string <> hours_as_string <> minutes_as_string
     end
+
   end
 
   defp days_to_string(days) do
