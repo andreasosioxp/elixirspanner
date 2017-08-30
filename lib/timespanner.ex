@@ -19,13 +19,9 @@ defmodule TimeSpanner do
   end
 
   def concatenate(strings) do 
-    Enum.reduce(strings, fn(x, acc) -> 
-      if(x != "" && acc != "") do
-        acc <> " " <> x
-      else
-        acc <> x
-      end
-    end)
+    strings
+      |> Enum.filter(&(&1 != "" ))
+      |> Enum.join(" ")
   end
 
   defp days_to_string(days) do
