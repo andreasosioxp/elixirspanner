@@ -9,32 +9,27 @@ defmodule TimeSpanner do
 
 
   defp to_string(days, hours, minutes) do
-    result = concatenate([
+    [
       days_to_string(days),
       hours_to_string(hours),
       minutes_to_string(minutes)
-    ])
-
-    if result != "", do: result, else: "0 minutes"
-  end
-
-  def concatenate(strings) do 
-    strings
-      |> Enum.filter(&(&1 != "" ))
+    ] |> Enum.filter(&(&1 != "" ))
       |> Enum.join(" ")
+      |> if_empty("0 minutes")
+
   end
 
-  defp days_to_string(days) do
+  defp if_empty(string, default), do:
+    if string != "", do: string, else: default
+
+  defp days_to_string(days), do:
     timeunit_tostring(days, "day", "days")
-  end
 
-  defp hours_to_string(hours) do
+  defp hours_to_string(hours), do:
     timeunit_tostring(hours, "hour", "hours")
-  end
   
-  defp minutes_to_string(minutes) do
+  defp minutes_to_string(minutes), do:
     timeunit_tostring(minutes, "minute", "minutes")
-  end
 
   defp timeunit_tostring(n, singular, plural) do
     case n do
