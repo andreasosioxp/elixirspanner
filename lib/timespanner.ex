@@ -29,26 +29,23 @@ defmodule TimeSpanner do
   end
 
   defp days_to_string(days) do
-    case days do
-      0 -> ""
-      1 -> "1 day"
-      n -> "#{n} days"
-    end
+    timeunit_tostring(days, "day", "days")
   end
 
   defp hours_to_string(hours) do
-    case hours do
-      0 -> ""
-      1 -> "1 hour"
-      n -> "#{n} hours"
-    end
+    timeunit_tostring(hours, "hour", "hours")
   end
   
   defp minutes_to_string(minutes) do
-    case minutes do
+    timeunit_tostring(minutes, "minute", "minutes")
+  end
+
+  defp timeunit_tostring(n, singular, plural) do
+    case n do
       0 -> ""
-      1 -> "1 minute"
-      n -> "#{n} minutes"
+      1 -> "#{n} #{singular}"
+      n -> "#{n} #{plural}"
     end
   end
+
 end
