@@ -7,6 +7,17 @@ defmodule TimeSpanner do
     to_string(days, hours, minutes)
   end
 
+
+  defp to_string(days, hours, minutes) do
+    result = concatenate([
+      days_to_string(days),
+      hours_to_string(hours),
+      minutes_to_string(minutes)
+    ])
+
+    if result != "", do: result, else: "0 minutes"
+  end
+
   def concatenate(strings) do 
     Enum.reduce(strings, fn(x, acc) -> 
       if(x != "" && acc != "") do
@@ -15,14 +26,6 @@ defmodule TimeSpanner do
         acc <> x
       end
     end)
-  end
-
-  defp to_string(days, hours, minutes) do
-    only_minutes = hours < 1 and days < 1
-    minutes_as_string = minutes_to_string(minutes, only_minutes)
-    hours_as_string = hours_to_string(hours)
-    days_as_string = days_to_string(days)
-    concatenate([days_as_string, hours_as_string, minutes_as_string])
   end
 
   defp days_to_string(days) do
@@ -41,9 +44,9 @@ defmodule TimeSpanner do
     end
   end
   
-  defp minutes_to_string(minutes, only_minutes) do
+  defp minutes_to_string(minutes) do
     case minutes do
-      0 -> if (only_minutes), do: "0 minutes", else: ""
+      0 -> ""
       1 -> "1 minute"
       n -> "#{n} minutes"
     end
