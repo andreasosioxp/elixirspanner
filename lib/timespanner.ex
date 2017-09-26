@@ -5,13 +5,13 @@ defmodule TimeSpanner do
   end
   
   def minutes_to_pieces(m) do
-    weeks = round(m/(7*24*60))
+    weeks = trunc(m/(7*24*60))
     m = m-(weeks*7*24*60)
 
-    days = round(m/(24*60))
+    days = trunc(m/(24*60))
     m = m-(days*24*60)
 
-    hours = round(m/60)
+    hours = trunc(m/60)
     minutes = rem(m, 60)
 
     [weeks: weeks, days: days, hours: hours, minutes: minutes]
