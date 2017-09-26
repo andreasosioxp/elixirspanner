@@ -5,17 +5,21 @@ defmodule TimeSpanner do
   end
   
   def minutes_to_pieces(m) do
+    weeks = round(m/(7*24*60))
+    m = m-(weeks*7*24*60)
+
     days = round(m/(24*60))
     m = m-(days*24*60)
 
     hours = round(m/60)
     minutes = rem(m, 60)
 
-    [days: days, hours: hours, minutes: minutes]
+    [weeks: weeks, days: days, hours: hours, minutes: minutes]
   end
 
-  defp to_str([days: days, hours: hours, minutes: minutes]) do
+  defp to_str([weeks: weeks, days: days, hours: hours, minutes: minutes]) do
     pieces = [
+      weeks_to_string(weeks),
       days_to_string(days),
       hours_to_string(hours),
       minutes_to_string(minutes)
@@ -27,8 +31,8 @@ defmodule TimeSpanner do
       |> to_str
   end
 
-  defp to_str(""), do: "0 minutes"
-  defp to_str(string), do: string
+  defp weeks_to_string(weeks), do:
+    timeunit_tostring(weeks, "week", "weeks")
 
   defp days_to_string(days), do:
     timeunit_tostring(days, "day", "days")
@@ -49,5 +53,8 @@ defmodule TimeSpanner do
 
   defp keep_not_empty(list), do:
     Enum.filter(list, &(&1 != "" ))
+
+  defp to_str(""), do: "0 minutes"
+  defp to_str(string), do: string
 
 end

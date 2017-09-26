@@ -51,9 +51,19 @@ defmodule TimeSpannerTest do
     assert TimeSpanner.from_minutes(24*60 + 60*2 + 14) == "1 day 2 hours 14 minutes"
   end
 
+  test "works for 1 week" do
+    assert TimeSpanner.from_minutes(7*24*60) == "1 week"
+  end
+
+  @tag :skip
+  test "works some weeks, some days and some minutes" do
+    assert TimeSpanner.from_minutes(7*24*60 + 4*24*60 + 18) == "1 week 4 days 18 minutes"
+  end
+
   test "minutes_to_pieces works properly" do
-    assert TimeSpanner.minutes_to_pieces(24*60 + 60*2 + 14) == [days: 1, hours: 2, minutes: 14]
-    assert TimeSpanner.minutes_to_pieces(6*24*60) == [days: 6, hours: 0, minutes: 0]
-    assert TimeSpanner.minutes_to_pieces(5*24*60 + 2*60 + 6) == [days: 5, hours: 2, minutes: 6]
+    assert TimeSpanner.minutes_to_pieces(24*60 + 60*2 + 14) == [weeks: 0, days: 1, hours: 2, minutes: 14]
+    assert TimeSpanner.minutes_to_pieces(7*24*60) == [weeks: 1, days: 0, hours: 0, minutes: 0]
+    assert TimeSpanner.minutes_to_pieces(7*24*60 + 2*60 + 6) == [weeks: 1, days: 0, hours: 2, minutes: 6]
+    #assert TimeSpanner.minutes_to_pieces((7*24*60) + (4*24*60) + (18)) == [weeks: 1, days: 4, hours: 0, minutes: 18]
   end
 end
