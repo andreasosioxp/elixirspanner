@@ -1,72 +1,53 @@
 defmodule TimeSpanner do
 
-  def from_minutes(m) do
-    minutes_to_pieces(m) |> to_str
+  def from_minutes(minutes) do
+    minutes
+      |> minutes_to_pieces
+      |> pieces_to_string
   end
   
   def minutes_to_pieces(minutes) do
     units = [
-      weeks: 7*24*60,
-      days: 24*60,
-      hours: 60,
-      minutes: 1
+      week: 7*24*60,
+      day: 24*60,
+      hour: 60,
+      minute: 1
     ]
 
     minutes_to_pieces(minutes, units, [])
   end
 
+  defp minutes_to_pieces(remaining, [unit|tail], result) do
+    {unit_key, in_minutes} = unit
 
-  defp minutes_to_pieces(minutes, [unit|tail], result) do
-    key = elem(unit, 0) 
-    in_minutes = elem(unit, 1) 
+    in_unit = trunc(remaining/in_minutes)
+    remaining = remaining-(in_unit*in_minutes)
 
-    in_unit = trunc(minutes/in_minutes)
-    minutes = minutes-(in_unit*in_minutes)
-
-    result = result ++ [{key, in_unit}]
-    minutes_to_pieces(minutes, tail, result)
+    result = result ++ [{unit_key, in_unit}]
+    minutes_to_pieces(remaining, tail, result)
   end
 
   defp minutes_to_pieces(0, [], result), do: result
 
-  defp to_str([weeks: weeks, days: days, hours: hours, minutes: minutes]) do
-    pieces = [
-      weeks_to_string(weeks),
-      days_to_string(days),
-      hours_to_string(hours),
-      minutes_to_string(minutes)
-    ]
-    
+  defp pieces_to_string(pieces) do
     pieces
-      |> keep_not_empty
+      |> Enum.map(&(piece_to_string(&1)))
+      |> remove_empty
       |> Enum.join(" ")
-      |> to_str
+      |> zero_minutes_if_empty
   end
 
-  defp to_str(""), do: "0 minutes"
-  defp to_str(string), do: string
-
-  defp weeks_to_string(weeks), do:
-    timeunit_tostring(weeks, "week", "weeks")
-
-  defp days_to_string(days), do:
-    timeunit_tostring(days, "day", "days")
-
-  defp hours_to_string(hours), do:
-    timeunit_tostring(hours, "hour", "hours")
-  
-  defp minutes_to_string(minutes), do:
-    timeunit_tostring(minutes, "minute", "minutes")
-
-  defp timeunit_tostring(n, singular, plural) do
-    case n do
+  defp piece_to_string({unit_key, value}) do
+    unit_name = Atom.to_string(unit_key)
+    case value do
       0 -> ""
-      1 -> "#{n} #{singular}"
-      n -> "#{n} #{plural}"
+      1 -> "1 #{unit_name}"
+      v -> "#{v} #{unit_name}s"
     end
   end
 
-  defp keep_not_empty(list), do:
-    Enum.filter(list, &(&1 != "" ))
+  defp remove_empty(list), do: Enum.filter(list, &(&1 != "" ))
+  defp zero_minutes_if_empty(""), do: "0 minutes"
+  defp zero_minutes_if_empty(string), do: string
 
 end

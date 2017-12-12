@@ -60,9 +60,9 @@ defmodule TimeSpannerTest do
   end
 
   test "minutes_to_pieces works properly" do
-    assert TimeSpanner.minutes_to_pieces(24*60 + 60*2 + 14)             == [weeks: 0, days: 1, hours: 2, minutes: 14]
-    assert TimeSpanner.minutes_to_pieces(7*24*60)                       == [weeks: 1, days: 0, hours: 0, minutes: 0]
-    assert TimeSpanner.minutes_to_pieces(7*24*60 + 2*60 + 6)            == [weeks: 1, days: 0, hours: 2, minutes: 6]
-    assert TimeSpanner.minutes_to_pieces((7*24*60) + (4*24*60) + (18))  == [weeks: 1, days: 4, hours: 0, minutes: 18]
+    assert TimeSpanner.minutes_to_pieces(24*60 + 60*2 + 14)             == [week: 0, day: 1, hour: 2, minute: 14]
+    assert TimeSpanner.minutes_to_pieces(7*24*60)                       == [week: 1, day: 0, hour: 0, minute: 0]
+    assert TimeSpanner.minutes_to_pieces(7*24*60 + 2*60 + 6)            == [week: 1, day: 0, hour: 2, minute: 6]
+    assert TimeSpanner.minutes_to_pieces((7*24*60) + (4*24*60) + (18))  == [week: 1, day: 4, hour: 0, minute: 18]
   end
 end
