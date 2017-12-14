@@ -16,15 +16,15 @@ defmodule TimeSpannerTest do
   end
 
   test "works for 61 minutes" do
-    assert TimeSpanner.from_minutes(61) == "1 hour 1 minute"
+    assert TimeSpanner.from_minutes(61) == "1 hour, and 1 minute"
   end
 
   test "works for 70 minutes" do
-    assert TimeSpanner.from_minutes(70) == "1 hour 10 minutes"
+    assert TimeSpanner.from_minutes(70) == "1 hour, and 10 minutes"
   end
 
   test "works with multiple hours and minutes" do
-    assert TimeSpanner.from_minutes(122) == "2 hours 2 minutes"
+    assert TimeSpanner.from_minutes(122) == "2 hours, and 2 minutes"
   end
 
   test "works for 120 minutes" do
@@ -40,15 +40,15 @@ defmodule TimeSpannerTest do
   end
 
   test "works for 1 day and some hours" do
-    assert TimeSpanner.from_minutes(24*60 + 60*2) == "1 day 2 hours"
+    assert TimeSpanner.from_minutes(24*60 + 60*2) == "1 day, and 2 hours"
   end
 
   test "works for some days and some minutes" do
-    assert TimeSpanner.from_minutes((24*60)*2 + 5) == "2 days 5 minutes"
+    assert TimeSpanner.from_minutes((24*60)*2 + 5) == "2 days, and 5 minutes"
   end
 
   test "works for some days, some hours and some minutes" do
-    assert TimeSpanner.from_minutes(24*60 + 60*2 + 14) == "1 day 2 hours 14 minutes"
+    assert TimeSpanner.from_minutes(24*60 + 60*2 + 14) == "1 day, 2 hours, and 14 minutes"
   end
 
   test "works for 1 week" do
@@ -56,7 +56,7 @@ defmodule TimeSpannerTest do
   end
 
   test "works some weeks, some days and some minutes" do
-    assert TimeSpanner.from_minutes(7*24*60 + 4*24*60 + 18) == "1 week 4 days 18 minutes"
+    assert TimeSpanner.from_minutes(7*24*60 + 4*24*60 + 18) == "1 week, 4 days, and 18 minutes"
   end
 
 end
