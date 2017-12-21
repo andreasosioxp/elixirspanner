@@ -5,7 +5,7 @@ defmodule SpannerPrinter do
       |> Enum.map(&(piece_to_string(&1)))
       |> remove_empty
       |> add_and_conjuction
-      |> Enum.join(", ")
+      |> join_pieces 
       |> zero_minutes_if_empty
   end
 
@@ -24,6 +24,9 @@ defmodule SpannerPrinter do
   defp add_and_conjuction(pieces) do
     pieces |> List.replace_at(-1, "and " <> List.last(pieces))
   end
+
+  defp join_pieces(pieces) when length(pieces) == 2, do: Enum.join(pieces, " ")
+  defp join_pieces(pieces), do: Enum.join(pieces, ", ")
 
   defp zero_minutes_if_empty(""), do: "0 minutes"
   defp zero_minutes_if_empty(string), do: string

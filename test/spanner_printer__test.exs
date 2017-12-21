@@ -22,6 +22,10 @@ defmodule SpannerPrinterTest do
       assert SpannerPrinter.pieces_to_string([week: 1, day: 4, hour: 0, minute: 18]) == "1 week, 4 days, and 18 minutes"
     end
 
+    test "following the Oxford Comma rule, two words should not have comma before 'and' conjunction" do
+      assert SpannerPrinter.pieces_to_string([week: 0, day: 1, hour: 2, minute: 0]) == "1 day and 2 hours"
+    end
+
   end
 
 end
