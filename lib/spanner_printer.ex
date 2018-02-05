@@ -2,7 +2,7 @@ defmodule SpannerPrinter do
 
   def pieces_to_string(pieces) do
     pieces
-      |> Enum.map(&(piece_to_string(&1)))
+      |> Enum.map(&piece_to_string/1)
       |> remove_empty
       |> add_comma_conjuctions
       |> add_and_conjuction
@@ -11,11 +11,10 @@ defmodule SpannerPrinter do
   end
 
   defp piece_to_string({unit_key, value}) do
-    unit_name = Atom.to_string(unit_key)
     case value do
       0 -> ""
-      1 -> "1 #{unit_name}"
-      v -> "#{v} #{unit_name}s"
+      1 -> "1 #{unit_key}"
+      v -> "#{v} #{unit_key}s"
     end
   end
 
