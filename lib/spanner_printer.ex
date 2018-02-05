@@ -1,17 +1,23 @@
 defmodule SpannerPrinter do
 
   def pieces_to_string(pieces) do
-    pieces
-      |> Enum.map(&(piece_to_string(&1)))
-      |> remove_empty
-      |> add_comma_conjuctions
-      |> add_and_conjuction
-      |> Enum.join(" ")
-      |> zero_minutes_if_empty
+    pieces_strings = Enum.map(pieces, &piece_to_string/1)
+    pieces_strings = Enum.filter(pieces_strings, fn(v) -> v != "" end)
+    pieces_strings = add_comma_conjuctions(pieces_strings)
+    pieces_strings = add_and_conjuction(pieces_strings)
+    result = Enum.join(pieces_strings, " ")
+
+    if(result == "") do
+      "0 minutes"
+    else
+      result
+    end
   end
 
-  defp piece_to_string({unit_key, value}) do
-    unit_name = Atom.to_string(unit_key)
+  defp piece_to_string(piece) do
+    unit_name = elem(piece, 0)
+    value = elem(piece, 1)
+
     case value do
       0 -> ""
       1 -> "1 #{unit_name}"
@@ -19,21 +25,23 @@ defmodule SpannerPrinter do
     end
   end
 
-  defp remove_empty(list), do: Enum.filter(list, &(&1 != "" ))
-
-  defp add_comma_conjuctions(pieces) when length(pieces) < 3, do: pieces
   defp add_comma_conjuctions(pieces) do
-    [last | rest] = Enum.reverse(pieces) 
-    rest = Enum.map(rest, fn p -> (p <> ",") end)
-    Enum.reverse([last | rest])
+    if length(pieces) >= 3 do
+      [last | rest] = Enum.reverse(pieces) 
+      rest = Enum.map(rest, fn p -> (p <> ",") end)
+      Enum.reverse([last | rest])
+    else
+      pieces
+    end
   end
 
-  defp add_and_conjuction(pieces) when length(pieces) < 2, do: pieces
   defp add_and_conjuction(pieces) do
-    pieces |> List.replace_at(-1, "and " <> List.last(pieces))
+    if length(pieces) >= 2 do
+      pieces |> List.replace_at(-1, "and " <> List.last(pieces))
+    else
+      pieces
+    end
   end
 
-  defp zero_minutes_if_empty(""), do: "0 minutes"
-  defp zero_minutes_if_empty(string), do: string
 
 end
