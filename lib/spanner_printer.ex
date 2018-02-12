@@ -2,23 +2,19 @@ defmodule SpannerPrinter do
 
   def pieces_to_string(pieces) do
     pieces
-      |> Enum.map(&piece_to_string/1)
       |> remove_empty
+      |> Enum.map(&piece_to_string/1)
       |> add_comma_conjuctions
       |> add_and_conjuction
       |> Enum.join(" ")
       |> zero_minutes_if_empty
   end
 
-  defp piece_to_string({unit_key, value}) do
-    case value do
-      0 -> ""
-      1 -> "1 #{unit_key}"
-      v -> "#{v} #{unit_key}s"
-    end
-  end
+  defp remove_empty(list), do: Enum.filter(list, fn({_, value}) -> value != 0 end)
 
-  defp remove_empty(list), do: Enum.filter(list, &(&1 != "" ))
+  defp piece_to_string({_, 0}), do: ""
+  defp piece_to_string({unit_key, 1}), do: "1 #{unit_key}"
+  defp piece_to_string({unit_key, value}), do: "#{value} #{unit_key}s"
 
   defp add_comma_conjuctions(pieces) when length(pieces) < 3, do: pieces
   defp add_comma_conjuctions(pieces) do
