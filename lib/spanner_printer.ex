@@ -1,7 +1,7 @@
 defmodule SpannerPrinter do
 
   def pieces_to_string(pieces) do
-    pieces_strings = Enum.map(pieces, &piece_to_string/1)
+    pieces_strings = Enum.map(pieces, fn(p) -> piece_to_string(p) end)
     pieces_strings = Enum.filter(pieces_strings, fn(v) -> v != "" end)
     pieces_strings = add_comma_conjuctions(pieces_strings)
     pieces_strings = add_and_conjuction(pieces_strings)
