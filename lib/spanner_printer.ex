@@ -4,9 +4,8 @@ defmodule SpannerPrinter do
     pieces
       |> remove_empty
       |> Enum.map(&piece_to_string/1)
-      |> add_comma_conjuctions
       |> add_and_conjuction
-      |> Enum.join(" ")
+      |> join_pieces
       |> zero_minutes_if_empty
   end
 
@@ -16,17 +15,13 @@ defmodule SpannerPrinter do
   defp piece_to_string({unit_key, 1}), do: "1 #{unit_key}"
   defp piece_to_string({unit_key, value}), do: "#{value} #{unit_key}s"
 
-  defp add_comma_conjuctions(pieces) when length(pieces) < 3, do: pieces
-  defp add_comma_conjuctions(pieces) do
-    [last | rest] = Enum.reverse(pieces) 
-    rest = Enum.map(rest, fn p -> (p <> ",") end)
-    Enum.reverse([last | rest])
-  end
-
   defp add_and_conjuction(pieces) when length(pieces) < 2, do: pieces
   defp add_and_conjuction(pieces) do
     pieces |> List.replace_at(-1, "and " <> List.last(pieces))
   end
+
+  defp join_pieces(pieces) when length(pieces) < 3, do: Enum.join(pieces, " ")
+  defp join_pieces(pieces), do: Enum.join(pieces, ", ")
 
   defp zero_minutes_if_empty(""), do: "0 minutes"
   defp zero_minutes_if_empty(string), do: string
