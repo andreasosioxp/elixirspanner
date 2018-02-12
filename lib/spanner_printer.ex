@@ -11,7 +11,6 @@ defmodule SpannerPrinter do
 
   defp remove_empty(list), do: Enum.filter(list, fn({_, value}) -> value != 0 end)
 
-  defp piece_to_string({_, 0}), do: ""
   defp piece_to_string({unit_key, 1}), do: "1 #{unit_key}"
   defp piece_to_string({unit_key, value}), do: "#{value} #{unit_key}s"
 
