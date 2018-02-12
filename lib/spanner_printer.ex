@@ -2,14 +2,16 @@ defmodule SpannerPrinter do
 
   def pieces_to_string(pieces) do
     pieces
-      |> remove_empty
+      |> remove_zeros
       |> map_to_string
       |> add_and_conjuction
       |> join
       |> handle_zero_minutes
   end
 
-  defp remove_empty(pieces), do: Enum.filter(pieces, fn({_, value}) -> value != 0 end)
+  defp remove_zeros(pieces), do:
+    pieces |> Enum.filter(fn({_, value}) -> value != 0 end)
+
   defp map_to_string(pieces), do: Enum.map(pieces, &piece_to_string/1)
 
   defp piece_to_string({unit_key, 1}), do: "1 #{unit_key}"
