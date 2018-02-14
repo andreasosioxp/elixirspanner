@@ -97,4 +97,5 @@ $ docker build -t es .
 $ docker run --rm -itv $(pwd):/app -w /app es bash
 $ mix deps.get
 $ mix test
+$ mix test.watch
 ```
