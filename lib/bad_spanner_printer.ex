@@ -1,4 +1,4 @@
-defmodule SpannerPrinter do
+defmodule BadSpannerPrinter do
 
   def pieces_to_string(pieces) do
     zero_excluded = Enum.filter(pieces, fn({_, value}) -> value != 0 end)
