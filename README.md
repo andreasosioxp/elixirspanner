@@ -92,6 +92,9 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/timespanner](https://hexdocs.pm/timespanner).
 
 ## Eseguire il container e lanciare i test
-docker run --rm -itv $(pwd):/app -w /app elixir:slim bash
-mix test
-
+```bash
+$ docker build -t es .
+$ docker run --rm -itv $(pwd):/app -w /app es bash
+$ mix deps.get
+$ mix test
+```
