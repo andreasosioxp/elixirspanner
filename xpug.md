@@ -8,17 +8,22 @@
 is a violent psychopath who knows where you live."
 (John F. Woods)
 
-## Spots the differences
+## Spot the differences
 
 Study your new programming language.
 Spot syntax differences between it and your usual programming language.
 Try them. See if they can help your readability.
 
-## Loves Elixir
+## Refactor covered by tests
+
+You couldn't do it without them
+especially studying a new programming language.
+
+## Love Elixir
 
 Best syntax I've ever seen.
 
-(and loves Vim as well)
+(and love Vim as well)
 
 --------------------------------------------------
 
